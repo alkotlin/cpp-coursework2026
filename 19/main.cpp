@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include "DynamicArray.h"
 
 void print(const DynamicArray<int>& v)
@@ -87,6 +88,13 @@ int main()
         std::cout << words[i] << ' ';
     }
     std::cout << '\n';
-
+    std::sort(words.begin(), words.end(), [](const std::string& x, const std::string& y) {return x > y;});
+    std::cout << "Sorting in reverse using a lambda function:" << '\n';
+    for (std::size_t i = 0; i < words.size(); ++i)
+    {
+        std::cout << words[i] << ' ';
+    }
+    std::cout << '\n';
+ 
     return 0;
 }
