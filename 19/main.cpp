@@ -1,69 +1,92 @@
 #include <iostream>
-
+#include <string>
 #include "DynamicArray.h"
 
-/*
-            Глава 19
-шаблон, проверка диапазона, исключения,
-доступ к элементам по []
-*/
-template<typename T>
-void func(const DynamicArray<T>& a)
+void print(const DynamicArray<int>& v)
 {
-    std::cout << a.at(0);
+    for (std::size_t i = 0; i < v.size(); ++i)
+    {
+        std::cout << v[i] << ' ';
+    }
+    std::cout << '\n';
 }
 
 int main()
 {
+    // 1. Создание с размером
+    DynamicArray<int> a(3);
+    a[0] = 1;
+    a[1] = 2;
+    a[2] = 3;
+    std::cout << "a: ";
+    print(a);
 
-    DynamicArray<double> vec{1.5, 2.5, 13.0};
-
-    std::cout << "vec: ";
-    for (std::size_t i = 0; i < vec.size(); i++)
+    // 2. Список инициализации
+    DynamicArray<double> b{1.5, 2.5, 13.0};
+    std::cout << "b: ";
+    for (std::size_t i = 0; i < b.size(); ++i)
     {
-        std::cout << vec.at(i) << ' ';
+        std::cout << b[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 
-    double value = vec.at(1);
+    // 3. push_back и capacity
+    DynamicArray<int> c;
+    std::cout << "c.size=" << c.size() << ", c.capacity=" << c.capacity() << '\n';
+    for (int i = 0; i < 10; ++i)
+    {
+        c.push_back(i * 10);
+    }
+    std::cout << "c: ";
+    print(c);
+    std::cout << "c.size=" << c.size() << ", c.capacity=" << c.capacity() << '\n';
 
-    vec.get(0);
+    // 4. resize
+    c.resize(5);
+    std::cout << "after resize(5): ";
+    print(c);
+    c.resize(8, 99);
+    std::cout << "after resize(8, 99): ";
+    print(c);
 
-    func(vec);
+    // 5. reserve
+    DynamicArray<int> d;
+    d.reserve(20);
+    std::cout << "d.size=" << d.size() << ", d.capacity=" << d.capacity() << '\n';
 
-    DynamicArray<int> numbers{10, 20, 30};
-    numbers.set(1, 99);
-    std::cout << "numbers[1] = " << numbers.get(1) << std::endl;
-
-    DynamicArray<std::string> words{"one", "two", "three"};
-    std::cout << "words[0] = " << words.at(0) << std::endl;
-
-    DynamicArray<int> numbers_copy(numbers);
-    numbers_copy[0] = 100;
-    std::cout << "numbers[0] = " << numbers[0] << std::endl;
-    std::cout << "numbers_copy[0] = " << numbers_copy[0] << std::endl;
-
+    // 6. at и исключения
     try
     {
-        std::cout << vec.at(10) << std::endl;
+        std::cout << c.at(100) << '\n';
     }
-
-    catch (const std::out_of_range& error)
+    catch (const std::out_of_range& e)
     {
-        std::cout << "error: " << error.what() << std::endl;
+        std::cout << "exception: " << e.what() << '\n';
     }
 
-    //самоприсванивание
-    DynamicArray<int> vec1{1, 2};
-    vec1 = numbers;
-    vec1 = vec1;
-    std::cout << "vec1 size = " << vec1.size() << std::endl;
+    // 7. Копирование и присваивание
+    DynamicArray<int> e = c;
+    e[0] = 1000;
+    std::cout << "c[0]=" << c[0] << ", e[0]=" << e[0] << '\n';
 
-    //перемещение
-    DynamicArray<int> moved(std::move(numbers_copy));
-    std::cout << "moved size = " << moved.size() << std::endl;
-    std::cout << "numbers_copy size after move = "
-              << numbers_copy.size() << std::endl;
+    DynamicArray<int> f(2);
+    f = c;
+    f = f;
+    std::cout << "f: ";
+    print(f);
+
+    // 8. Перемещение
+    DynamicArray<int> g = std::move(e);
+    std::cout << "g.size=" << g.size() << ", e.size=" << e.size() << '\n';
+
+    // 9. Шаблон с std::string
+    DynamicArray<std::string> words{"one", "two", "three"};
+    words.push_back("four");
+    for (std::size_t i = 0; i < words.size(); ++i)
+    {
+        std::cout << words[i] << ' ';
+    }
+    std::cout << '\n';
 
     return 0;
 }

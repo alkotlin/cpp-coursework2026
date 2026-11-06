@@ -27,6 +27,9 @@ public:
     void reserve(std::size_t newalloc);
     void resize(std::size_t newsize, const T& val = T());
     void push_back(const T& val);
+    bool empty() const { return sz_ == 0; }
+    void clear() noexcept;
+    void pop_back();
 
     T& operator[](std::size_t index) { return elem_[index]; }
     const T& operator[](std::size_t index) const { return elem_[index]; }
@@ -298,4 +301,21 @@ const T& DynamicArray<T>::at(std::size_t index) const
         throw std::out_of_range("DynamicArray: index out of range");
     }
     return elem_[index];
+}
+template<typename T>
+void DynamicArray<T>::clear() noexcept
+{
+    destroy_elements();
+    sz_ = 0;
+}
+
+template<typename T>
+void DynamicArray<T>::pop_back()
+{
+    if (sz_ == 0)
+    {
+        throw std::out_of_range("DynamicArray: pop_back from empty vector");
+    }
+    --sz_;
+    alloc_.destroy(elem_ + sz_);
 }
