@@ -24,12 +24,15 @@ public:
     std::size_t size() const { return sz_; }
     std::size_t capacity() const { return capacity_; }
 
+
     void reserve(std::size_t newalloc);
     void resize(std::size_t newsize, const T& val = T());
     void push_back(const T& val);
     bool empty() const { return sz_ == 0; }
     void clear() noexcept;
     void pop_back();
+    T* begin();
+    T* end();
 
     T& operator[](std::size_t index) { return elem_[index]; }
     const T& operator[](std::size_t index) const { return elem_[index]; }
@@ -45,6 +48,17 @@ private:
 
     void destroy_elements();
 };
+
+template<typename T>
+T* DynamicArray<T>::begin()
+{
+ return elem_;   
+}
+template<typename T>
+T* DynamicArray<T>::end()
+{
+ return elem_+sz_;   
+}
 
 template<typename T>
 DynamicArray<T>::DynamicArray()
