@@ -7,6 +7,7 @@ class DynamicArray
 {
 public:
     explicit DynamicArray(std::size_t size);
+    DynamicArray() : size_{1}, data_{0} {}
     DynamicArray(std::initializer_list<double> values);
     DynamicArray(const DynamicArray& other);
     DynamicArray(DynamicArray&& other) noexcept;
