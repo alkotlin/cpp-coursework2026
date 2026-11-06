@@ -250,20 +250,14 @@ void DynamicArray<T>::reserve(std::size_t newalloc)
 template<typename T>
 void DynamicArray<T>::resize(std::size_t newsize, const T& val)
 {
-    if (newsize > sz_)
+    reserve(newsize);
+    for (std::size_t i = sz_; i < newsize; ++i)
     {
-        reserve(newsize);
-        for (std::size_t i = sz_; i < newsize; ++i)
-        {
-            alloc_.construct(elem_ + i, val);
-        }
+        alloc_.construct(elem_ + i, val);
     }
-    else if (newsize < sz_)
+    for (std::size_t i = newsize; i < sz_; ++i)
     {
-        for (std::size_t i = newsize; i < sz_; ++i)
-        {
-            alloc_.destroy(elem_ + i);
-        }
+        alloc_.destroy(elem_ + i);       
     }
     sz_ = newsize;
 }
