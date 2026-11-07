@@ -88,6 +88,9 @@ int main()
         std::cout << words[i] << ' ';
     }
     std::cout << '\n';
+    DynamicArray<std::string> w = words;
+
+    // Sorting in reverse using a lambda function:
     std::sort(words.begin(), words.end(), [](const std::string& x, const std::string& y) {return x > y;});
     std::cout << "Sorting in reverse using a lambda function:" << '\n';
     for (std::size_t i = 0; i < words.size(); ++i)
@@ -95,6 +98,21 @@ int main()
         std::cout << words[i] << ' ';
     }
     std::cout << '\n';
- 
+
+    // Sorting w in reverse using a functor:
+        std::cout << "w (copy of words):" << '\n';
+    for (std::size_t i = 0; i < w.size(); ++i)
+    {
+        std::cout << w[i] << ' ';
+    }
+    std::cout << '\n';
+    std::sort(w.begin(), w.end(), DynamicArray<std::string>::Decline{});
+    std::cout << "Sorting w in reverse using a functor:" << '\n';
+    for (std::size_t i = 0; i < w.size(); ++i)
+    {
+        std::cout << w[i] << ' ';
+    }
+    std::cout << '\n';
+    
     return 0;
 }
