@@ -40,6 +40,12 @@ public:
     T& at(std::size_t index);
     const T& at(std::size_t index) const;
 
+    struct Decline 
+    {
+        bool operator()(const std::string& a, const std::string& b) const {return a > b;}
+    };
+
+
 private:
     T* elem_;
     std::size_t sz_;
